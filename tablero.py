@@ -85,7 +85,7 @@ with col1:
         width=canvas_width,
         height=canvas_height,
         drawing_mode=drawing_mode,
-        update_streamlit=True,  # <--- Esto soluciona que devuelva los datos de la imagen
+        return_image_data=True,  # Habilita la extracción de los datos del dibujo
         key="canvas",
     )
 
