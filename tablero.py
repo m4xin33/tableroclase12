@@ -16,6 +16,24 @@ st.set_page_config(
 with st.sidebar:
     st.write(f"**TensorFlow:** {tf.__version__}")
     st.write(f"**Keras:** {keras.__version__}")
+    
+    st.markdown("---")
+    st.header("⚙️ Personalizar Lienzo")
+    
+    # Herramientas de dibujo
+    drawing_mode = st.selectbox(
+        "Herramienta:",
+        ("freedraw", "line"),
+        format_func=lambda x: "✏️ Dibujo Libre" if x == "freedraw" else "📏 Línea Recta"
+    )
+    
+    # Color y grosor del trazo
+    stroke_color = st.color_picker("Color del trazo:", "#FFFFFF")
+    stroke_width = st.slider("Grosor del pincel:", min_value=5, max_value=50, value=20)
+    
+    # Tamaño del lienzo
+    canvas_width = st.slider("Ancho del tablero:", min_value=200, max_value=800, value=400, step=50)
+    canvas_height = st.slider("Alto del tablero:", min_value=200, max_value=800, value=400, step=50)
 
 st.title("✍️ Detección de Dígitos Escritos a Mano")
 st.markdown("**Modelo CNN entrenado en Google Colab con MNIST**")
@@ -61,12 +79,13 @@ col1, col2 = st.columns([2, 1])
 with col1:
     canvas_result = st_canvas(
         fill_color="black",
-        stroke_width=20,
-        stroke_color="white",
+        stroke_width=stroke_width,
+        stroke_color=stroke_color,
         background_color="black",
-        width=400,
-        height=400,
-        drawing_mode="freedraw",
+        width=canvas_width,
+        height=canvas_height,
+        drawing_mode=drawing_mode,
+        update_streamlit=True,  # <--- Esto soluciona que devuelva los datos de la imagen
         key="canvas",
     )
 
